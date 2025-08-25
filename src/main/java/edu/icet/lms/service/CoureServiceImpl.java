@@ -51,4 +51,17 @@ public class CoureServiceImpl implements CourseService {
         String sql = "DELETE FROM courses WHERE id = ?";
         return jdbcTemplate.update(sql, id);
     }
+    @Override
+    public Optional<Course> getCourseByName(String name) {
+        String sql = "SELECT * FROM courses WHERE title = ?";
+        List<Course> courses = jdbcTemplate.query(sql, new Object[]{name}, (rs, rowNum) ->
+                new Course(
+                        rs.getLong("id"),
+                        rs.getString("title"),
+                        rs.getString("description"),
+                        rs.getString("instructor")
+                )
+        );
+        return courses.stream().findFirst();
+    }
 }

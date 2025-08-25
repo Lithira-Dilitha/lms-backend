@@ -53,4 +53,11 @@ public class CourseController {
             return ResponseEntity.notFound().build();
         }
     }
+
+    @GetMapping("/name/{name}")
+    public ResponseEntity<Course> getCourseByName(@PathVariable String name) {
+        return courseService.getCourseByName(name)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
 }
